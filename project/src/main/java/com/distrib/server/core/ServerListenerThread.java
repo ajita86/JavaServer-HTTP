@@ -21,8 +21,6 @@ public class ServerListenerThread extends Thread {
     @Override
     public void run() {
         try {
-            //creating a server socket object: used only to accept a connection
-            ServerSocket serverSocket = new ServerSocket(conf.getPort());
 
             //connecting to the socket: this is the actual socket to be used
             Socket socket = serverSocket.accept();
@@ -59,7 +57,5 @@ public class ServerListenerThread extends Thread {
         }
         super.run();
     }
-
-    
 
 }
