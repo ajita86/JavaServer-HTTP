@@ -1,8 +1,6 @@
 package com.distrib.server.core;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -32,8 +30,15 @@ public class ServerListenerThread extends Thread {
                 workerThread.start();
 
             }
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {}
+            }
+
         }
                 
         super.run();

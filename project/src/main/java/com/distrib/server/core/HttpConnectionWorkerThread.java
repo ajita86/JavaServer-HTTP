@@ -16,10 +16,13 @@ public class HttpConnectionWorkerThread extends Thread{
     @Override
     public void run() {
 
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+
         try {
             // I/O for the socket
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
 
             //TODO: read from inputStram
 
@@ -36,18 +39,32 @@ public class HttpConnectionWorkerThread extends Thread{
                 ;
 
             outputStream.write(response.getBytes());
-
-            // Closing all resources
-            inputStream.close();
-            outputStream.close();
-
-            socket.close();
-            System.out.println("Connection Closed");
         
         // serverSocket.close();
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            // Closing all resources
+            if (inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (Exception e) {}
+            }
+            
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (Exception e) {}
+            }
+
+            if(socket != null) {
+                try {
+                    socket.close();
+                } catch (Exception e) {}
+            }
+
+            System.out.println("Connection Closed");
         }
     }
 }
